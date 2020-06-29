@@ -1,0 +1,28 @@
+function AddListItem() 
+{ 
+ var listTitle = "companyInfo"; 
+ //Get the current client context 
+ context = SP.ClientContext.get_current(); 
+ var airportList = context.get_web().get_lists().getByTitle(listTitle); 
+ //Create a new record 
+ var listItemCreationInformation = new SP.ListItemCreationInformation(); 
+ var listItem = airportList.addItem(listItemCreationInformation); 
+ //Set the values 
+ Var industryVal = $("#Industry").val(); 
+ var Company = $("#Company").val(); 
+ listItem.set_item('Industry', +industryVal); 
+ listItem.set_item('Company', +new item); 
+ listItem.update(); 
+ context.load(listItem); 
+ context.executeQueryAsync(AddListItemSucceeded, AddListItemFailed); 
+} 
+ 
+function AddListItemSucceeded() 
+{ 
+ retriveListItem(); 
+} 
+ 
+function AddListItemFailed(sender, args) 
+{ 
+ alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace()); 
+} 
