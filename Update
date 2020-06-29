@@ -1,0 +1,25 @@
+function updateListItem() 
+{ 
+ var ListName = "companyInfo"; 
+ var context = new SP.ClientContext.get_current(); // the current context is taken by default here 
+ //you can also create a particular site context as follows 
+ var lstObject = context.get_web().get_lists().getByTitle(ListName); 
+ this.lstObjectItem = lstObject.getItemById(1); 
+ 
+ Var industryVal = $("#Industry").val(); 
+ var Company = $("#Company").val(); 
+ lstObjectItem.set_item('Industry', “+industryVal + ”); 
+ lstObjectItem.set_item('Company', ”+Company + ”); 
+ lstObjectItem.update(); 
+      context.executeQueryAsync(Function.createDelegate(this, this.onSuccess), Function.createDelegate(this, this.onFailure));  
+} 
+ 
+function onSuccess() 
+{ 
+ retriveListItem(); 
+} 
+ 
+function onFailure(sender, args) 
+{ 
+ alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace()); 
+} 
