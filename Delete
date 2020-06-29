@@ -1,0 +1,22 @@
+function deleteListItem() 
+{ 
+ var listTitle = "companyInfo"; 
+ //get the current client context 
+ context = SP.ClientContext.get_current(); 
+ var airportList = context.get_web().get_lists().getByTitle(listTitle); 
+ //get the list item to delete 
+ var listItem = airportList.getItemById(1); 
+ //delete the list item 
+ listItem.deleteObject(); 
+ context.executeQueryAsync(DeleteItemSucceeded, DeleteItemFailed); 
+} 
+ 
+function DeleteItemSucceeded() 
+{ 
+ retriveListItem(); 
+} 
+ 
+function DeleteItemFailed(sender, args) 
+{ 
+ alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace()); 
+} 
