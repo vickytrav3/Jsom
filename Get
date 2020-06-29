@@ -1,0 +1,39 @@
+function retriveListItem() 
+{ 
+ //Get the current context 
+ var context = new SP.ClientContext(); 
+ var list = context.get_web().get_lists().getByTitle(‘companyInfo’); 
+ var caml = new SP.CamlQuery(); 
+ caml.set_viewXml("<View><Query><OrderBy><FieldRef Name=’Company’ Ascending='TRUE' /></OrderBy></Query></View>"); 
+ returnedItems = list.getItems(caml); 
+ context.load(returnedItems); 
+ context.executeQueryAsync(onSucceededCallback, onFailedCallback); 
+} 
+ 
+function onSucceededCallback(sender, args) 
+{ 
+ var enumerator = returnedItems.getEnumerator(); 
+ //Formulate HTML from the list items 
+ var MainResult = 'Items in the Divisions list: <br><br>'; 
+ //Loop through all the items 
+ while (enumerator.moveNext()) 
+ { 
+ var listItem = enumerator.get_current(); 
+ var companyName = listItem.get_item(“Company "); 
+  var Industry = listItem.get_item(“Industry "); 
+   MainResult += MainResult + companyName + "-" + Industry + "\n"; 
+   } 
+   //Display the formulated HTML in the displayDiv element 
+  displayDiv.innerHTML = MainResult; 
+  } 
+  //This function fires when the query fails 
+ function onFailedCallback(sender, args) 
+ { 
+  //Formulate HTML to display details of the error 
+  var markup = '<p>The request failed: <br>'; 
+  markup += 'Message: ' + args.get_message() + '<br>'; 
+  //Display the details 
+  displayDiv.innerHTML = markup; 
+ } 
+ }
+} 
